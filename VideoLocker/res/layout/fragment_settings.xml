@@ -41,7 +41,9 @@
                     android:text="@string/settings_wifi_bottom"
                     android:textColor="@color/grey_4"
                     android:layout_marginRight="8dp"
-                    android:textSize="11sp" />
+                    android:layout_marginEnd="8dp"
+                    android:textSize="11sp"
+                    tools:targetApi="17" />
             </LinearLayout>
 
             <Switch
@@ -102,7 +104,9 @@
                     tools:text="@string/settings_facebook_login_body_logged_out"
                     android:textColor="@color/grey_4"
                     android:layout_marginRight="8dp"
-                    android:textSize="11sp" />
+                    android:layout_marginEnd="8dp"
+                    android:textSize="11sp"
+                    tools:targetApi="17" />
             </LinearLayout>
 
             <com.facebook.widget.LoginButton
@@ -151,9 +155,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/settings_make_courses_visible_bottom"
                     android:textColor="@color/grey_2"
-                    android:textSize="11sp" />
+                    android:textSize="11sp"
+                    tools:targetApi="17" />
             </LinearLayout>
 
             <Switch

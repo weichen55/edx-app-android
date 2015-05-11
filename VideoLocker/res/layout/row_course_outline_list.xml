@@ -9,7 +9,8 @@
     android:paddingStart="12dp"
     android:paddingEnd="5dp"
     android:paddingTop="5dp"
-    android:paddingBottom="5dp" >
+    android:paddingBottom="5dp"
+    tools:targetApi="17" >
 
     <ImageView
         android:id="@+id/vertical_type"
@@ -31,7 +32,8 @@
         android:maxWidth="@dimen/width_chapter_text"
         android:singleLine="true"
         tools:text="@string/chapter_name"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        tools:targetApi="17" />
 
     <LinearLayout
         android:id="@+id/bulk_download_layout"
@@ -43,7 +45,8 @@
         android:padding="10dp"
         android:layout_marginRight="2dp"
         android:layout_marginEnd="2dp"
-        android:background="@android:color/transparent" >
+        android:background="@android:color/transparent"
+        tools:targetApi="17" >
 
         <ImageView
             android:id="@+id/bulk_download"
@@ -63,7 +66,8 @@
             android:visibility="invisible"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:background="@android:color/transparent" >
+            android:background="@android:color/transparent"
+            tools:targetApi="17" >
 
             <include layout="@layout/view_progress_wheel" />
         </LinearLayout>
@@ -82,7 +86,8 @@
         android:layout_toStartOf="@id/bulk_download_layout"
         tools:text="0"
         android:textColor="@color/grey_text_mycourse"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        tools:targetApi="17" />
 
     <ImageView
         android:id="@+id/next_arrow"
@@ -95,7 +100,8 @@
         android:background="@drawable/ic_next_default"
         android:contentDescription="@string/course_content"
         android:scaleType="fitXY"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:targetApi="17" />
     
     
 

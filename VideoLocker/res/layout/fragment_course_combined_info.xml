@@ -88,7 +88,9 @@
                     android:src="@drawable/ic_cert"
                     android:layout_weight="1"
                     android:gravity="center|center_vertical"
-                    android:layout_marginRight="14dp" />
+                    android:layout_marginRight="14dp"
+                    android:layout_marginEnd="14dp"
+                    tools:targetApi="17" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -166,7 +168,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="4dp"
-                    android:layout_marginEnd="4dp" />
+                    android:layout_marginEnd="4dp"
+                    tools:targetApi="17" />
 
             </LinearLayout>
 
@@ -245,7 +248,9 @@
                 android:visibility="visible"
                 style="@style/regular_grey_text"
                 android:textSize="16sp"
-                android:drawableRight="@drawable/ic_officialfbgroup" />
+                android:drawableRight="@drawable/ic_officialfbgroup"
+                android:drawableEnd="@drawable/ic_officialfbgroup"
+                tools:targetApi="17" />
 
         </LinearLayout>
 
@@ -277,11 +282,13 @@
                 android:layout_width="10dp"
                 android:layout_height="16dp"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_margin="14dp"
                 android:background="@drawable/ic_next_default"
                 android:contentDescription="@string/course_content"
-                android:scaleType="fitXY"/>
+                android:scaleType="fitXY"
+                tools:targetApi="17"/>
             </RelativeLayout>
 
         <View
@@ -332,12 +339,14 @@
                             android:id="@+id/settingsText"
                             style="@style/regular_text"
                             android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
                             android:layout_gravity="center_vertical"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/notification_toggle"
                             android:textColor="@color/grey_6"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            tools:targetApi="17" />
                     </LinearLayout>
 
                     <Switch
