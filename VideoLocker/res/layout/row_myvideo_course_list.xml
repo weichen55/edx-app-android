@@ -62,7 +62,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:gravity="right"
+                android:gravity="right|end"
                 android:orientation="horizontal"
                 tools:targetApi="17" >
 

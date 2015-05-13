@@ -63,7 +63,8 @@
                     app:borderRadius="@dimen/avatar_image_radius"
                     app:avatarCount="6"
                     app:avatarMaxSize="50dp"
-                    android:gravity="center|left" />
+                    android:gravity="center|left|start"
+                    tools:targetApi="17" />
 
             </LinearLayout>
 

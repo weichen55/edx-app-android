@@ -23,7 +23,8 @@
         app:avatarGap="10dp"
         app:borderRadius="@dimen/avatar_image_radius"
         app:overflowTextSize="26sp"
-        android:gravity="center|left" />
+        android:gravity="center|left|start"
+        tools:targetApi="17" />
 
     <LinearLayout
         android:layout_width="match_parent"

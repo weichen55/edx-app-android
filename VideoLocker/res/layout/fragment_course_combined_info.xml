@@ -216,7 +216,8 @@
                         app:borderRadius="@dimen/avatar_image_radius_small"
                         app:overflowBorderWidth="1dp"
                         app:overflowTextSize="12sp"
-                        android:gravity="center|right" />
+                        android:gravity="center|right|end"
+                        tools:targetApi="17" />
 
                 </LinearLayout>
 

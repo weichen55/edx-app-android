@@ -39,7 +39,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/signup_social_title_margin_large"
                 android:layout_marginBottom="@dimen/signup_social_title_margin_bottom"
-                android:gravity="left" >
+                android:gravity="left|start"
+                tools:targetApi="17" >
 
                 <org.edx.mobile.view.custom.ETextView
                     android:id="@+id/signup_with_title"
@@ -58,17 +59,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/signup_social_title_margin"
                 android:layout_marginBottom="@dimen/signup_social_title_margin_bottom"
-                android:gravity="left" >
+                android:gravity="left|start"
+                tools:targetApi="17" >
 
                 <org.edx.mobile.view.custom.ETextView
                     android:id="@+id/or_signup_with_email_title"
                     style="@style/semibold_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
+                    android:gravity="left|start"
                     android:text="@string/or_sign_up_with_email"
                     android:textColor="@color/light_gray"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    tools:targetApi="17" />
             </LinearLayout>
 
             <LinearLayout
