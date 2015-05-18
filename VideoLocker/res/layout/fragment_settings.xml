@@ -27,11 +27,14 @@
                 <org.edx.mobile.view.custom.ETextView
                     android:id="@+id/settingsText"
                     style="@style/regular_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_wifi_top"
                     android:textColor="@color/grey_6"
-                    android:textSize="13sp" />
+                    android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textSize="13sp"
+                    tools:targetApi="17" />
 
                 <org.edx.mobile.view.custom.ETextView
                     android:id="@+id/download_only_tv"
@@ -90,11 +93,14 @@
                 <org.edx.mobile.view.custom.ETextView
                     android:id="@+id/settings_fb_login"
                     style="@style/regular_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/settings_facebook_login"
                     android:textColor="@color/grey_6"
-                    android:textSize="13sp" />
+                    android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textSize="13sp"
+                    tools:targetApi="17" />
 
                 <org.edx.mobile.view.custom.ETextView
                     android:id="@+id/settings_fb_login_body"
@@ -143,11 +149,14 @@
                 <org.edx.mobile.view.custom.ETextView
                     android:id="@+id/visibilitytext"
                     style="@style/regular_text"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginEnd="8dp"
                     android:text="@string/settings_make_courses_visible_top"
                     android:textColor="@color/grey_4"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    tools:targetApi="17" />
 
                 <org.edx.mobile.view.custom.ETextView
                     android:id="@+id/make_course_visible_text"
