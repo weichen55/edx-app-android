@@ -166,6 +166,8 @@
                 android:contentDescription="@string/new_course_content"
                 android:paddingLeft="3dp"
                 android:paddingStart="3dp"
+                android:paddingRight="0dp"
+                android:paddingEnd="0dp"
                 android:text="@string/new_course_content"
                 android:textAllCaps="true"
                 android:textSize="10sp"

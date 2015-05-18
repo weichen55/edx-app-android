@@ -30,6 +30,8 @@
         android:background="@drawable/delete_btn_selector"
         android:paddingLeft="10dp"
         android:paddingStart="10dp"
+        android:paddingRight="0dp"
+        android:paddingEnd="0dp"
         android:visibility="gone"
         tools:targetApi="17" />
 
@@ -45,6 +47,8 @@
         android:background="@drawable/delete_btn_selector"
         android:paddingRight="10dp"
         android:paddingEnd="10dp"
+        android:paddingLeft="0dp"
+        android:paddingStart="0dp"
         android:visibility="gone"
         android:enabled="false"
         tools:targetApi="17" />

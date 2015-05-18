@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingStart="20dp"
+        android:paddingRight="0dp"
+        android:paddingEnd="0dp"
         android:text="@string/course_name"
         android:visibility="gone"
         tools:targetApi="17" />
@@ -24,6 +26,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingStart="20dp"
+        android:paddingRight="0dp"
+        android:paddingEnd="0dp"
         android:text="@string/app_name"
         android:visibility="visible"
         tools:targetApi="17" />
@@ -35,6 +39,8 @@
         android:layout_height="wrap_content"
         android:paddingLeft="20dp"
         android:paddingStart="20dp"
+        android:paddingRight="0dp"
+        android:paddingEnd="0dp"
         android:text="@string/app_name"
         android:visibility="gone"
         tools:targetApi="17" />

@@ -138,6 +138,8 @@
                 android:layout_gravity="center"
                 android:paddingLeft="4dip"
                 android:paddingStart="4dip"
+                android:paddingRight="0dp"
+                android:paddingEnd="0dp"
                 android:paddingTop="4dip"
                 android:textSize="12sp"
                 tools:targetApi="17" />
@@ -160,6 +162,8 @@
                 android:layout_gravity="center"
                 android:paddingRight="4dip"
                 android:paddingEnd="4dip"
+                android:paddingLeft="0dp"
+                android:paddingStart="0dp"
                 android:paddingTop="4dip"
                 android:textSize="12sp"
                 android:textStyle="bold"
