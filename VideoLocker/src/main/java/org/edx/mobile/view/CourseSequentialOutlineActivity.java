@@ -2,8 +2,6 @@ package org.edx.mobile.view;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import org.edx.mobile.R;
 import org.edx.mobile.logger.Logger;
@@ -22,29 +20,36 @@ public class CourseSequentialOutlineActivity extends CourseBaseActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
- 
         setApplyPrevTransitionOnRestart(true);
-        // configure slider layout. This should be called only once and
-        // hence is shifted to onCreate() function
-       // configureDrawer();
 
         try{
             segIO.screenViewsTracking(getString(R.string.course_outline));
         }catch(Exception e){
             logger.error(e);
         }
-
     }
 
-    protected void initialize(Bundle arg){
-        super.initialize(arg);
-        sequential = (ISequential) bundle.getSerializable(Router.EXTRA_SEQUENTIAL);
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if( sequential != null )
+            outState.putSerializable(Router.EXTRA_SEQUENTIAL, sequential);
+        super.onSaveInstanceState(outState);
+    }
+
+    protected void restore(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            sequential = (ISequential) savedInstanceState.getSerializable(Router.EXTRA_SEQUENTIAL);
+        }
+        super.restore(savedInstanceState);
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        setTitle("");
+    protected void onResume() {
+        super.onResume();
+        if (sequential != null && sequential.getChapter() != null) {
+            setTitle( sequential.getChapter().getName() );
+        }
     }
 
     @Override
@@ -58,7 +63,8 @@ public class CourseSequentialOutlineActivity extends CourseBaseActivity {
 
                 if (courseData != null &&  sequential != null ) {
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable(Router.EXTRA_COURSE_OUTLINE, courseData);
+                    bundle.putSerializable(Router.EXTRA_COURSE_DATA, courseData);
+                    bundle.putSerializable(Router.EXTRA_COURSE, course);
                     bundle.putSerializable(Router.EXTRA_SEQUENTIAL, sequential);
                     fragment.setArguments(bundle);
                 }
@@ -67,20 +73,17 @@ public class CourseSequentialOutlineActivity extends CourseBaseActivity {
                 fragment.setRetainInstance(true);
 
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.add(R.id.fragment_container, fragment);
+                fragmentTransaction.add(R.id.fragment_container, fragment, CourseSequentialOutlineFragment.TAG);
                 fragmentTransaction.disallowAddToBackStack();
                 fragmentTransaction.commit();
 
             } catch (Exception e) {
                 logger.error(e);
             }
+        }else {
+            fragment = (CourseSequentialOutlineFragment)
+                getSupportFragmentManager().findFragmentByTag(CourseSequentialOutlineFragment.TAG);
         }
     }
 
-    @Override
-    protected boolean createOptionMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.course_detail, menu);
-        return true;
-    }
 }
