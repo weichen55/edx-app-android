@@ -6,9 +6,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.PopupMenu;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import org.edx.mobile.R;
 import org.edx.mobile.base.BaseFragmentActivity;
@@ -21,6 +19,7 @@ import org.edx.mobile.util.AppConstants;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.view.common.TaskProcessCallback;
 import org.edx.mobile.view.custom.ETextView;
+import org.edx.mobile.view.dialog.CourseModesMenuPopup;
 
 /**
  *  A base class to handle some common task
@@ -159,25 +158,7 @@ public abstract  class CourseBaseActivity  extends BaseFragmentActivity implemen
 
     public void changeMode(){
                  //Creating the instance of PopupMenu
-                PopupMenu popup = new PopupMenu(this, this.progressWheel);
-                //Inflating the Popup using xml file
-                popup.getMenuInflater()
-                    .inflate(R.menu.change_mode, popup.getMenu());
-                MenuItem menuItem = popup.getMenu().findItem(R.id.change_mode_video_only);
-
-
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Toast.makeText(
-                            CourseBaseActivity.this,
-                            "You Clicked : " + item.getTitle(),
-                            Toast.LENGTH_SHORT
-                        ).show();
-                        return true;
-                    }
-                });
-
+                CourseModesMenuPopup popup = new CourseModesMenuPopup(this);
                 popup.show(); //showing popup menu
 
     }

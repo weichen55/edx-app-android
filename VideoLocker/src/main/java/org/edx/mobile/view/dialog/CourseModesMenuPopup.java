@@ -17,6 +17,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import org.edx.mobile.R;
+import org.edx.mobile.module.prefs.PrefManager;
 import org.edx.mobile.third_party.iconify.IconDrawable;
 import org.edx.mobile.third_party.iconify.Iconify;
 
@@ -33,19 +34,9 @@ public class CourseModesMenuPopup extends PopupWindow {
         }
     }
 
-    public interface OnCourseModeSelectedListener {
-        void onCourseModeClick(CourseMode courseMode);
-    }
+    private final PrefManager.UserPrefManager userPrefManager;
 
-    private final OnCourseModeSelectedListener itemSelectedListener;
-
-    public CourseModesMenuPopup(Activity activity,
-            OnCourseModeSelectedListener itemSelectedListener) {
-        this(activity, CourseMode.FULL_COURSE, itemSelectedListener);
-    }
-
-    public CourseModesMenuPopup(Activity activity, CourseMode selectedMode,
-            OnCourseModeSelectedListener itemSelectedListener) {
+    public CourseModesMenuPopup(Activity activity) {
         View contentView = LayoutInflater.from(activity).inflate(
                 R.layout.popup_course_modes, (FrameLayout)
                         activity.findViewById(android.R.id.content), false);
@@ -56,6 +47,9 @@ public class CourseModesMenuPopup extends PopupWindow {
         setFocusable(true);
         // Setting a background is necessary for outside touches to register
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        userPrefManager = new PrefManager.UserPrefManager(activity);
+        CourseMode selectedMode = userPrefManager.isUserPrefVideoModel() ?
+                CourseMode.VIDEO_ONLY : CourseMode.FULL_COURSE;
         for (CourseMode courseMode : CourseMode.values()) {
             TextView item = (TextView) contentView.findViewById(courseMode.layoutId);
             Drawable iconDrawable = new IconDrawable(activity, courseMode.iconValue).sizeDp(15);
@@ -69,7 +63,6 @@ public class CourseModesMenuPopup extends PopupWindow {
             }
             item.setOnClickListener(new ItemClickListener(courseMode));
         }
-        this.itemSelectedListener = itemSelectedListener;
     }
 
     public void show() {
@@ -93,12 +86,16 @@ public class CourseModesMenuPopup extends PopupWindow {
 
         @Override
         public void onClick(View v) {
-            View view = getContentView();
-            for (CourseMode courseMode : CourseMode.values()) {
-                View item = view.findViewById(courseMode.layoutId);
-                item.setSelected(item == v);
+            if (!v.isSelected()) {
+                userPrefManager.setUserPrefVideoModel(
+                        courseMode == CourseMode.VIDEO_ONLY);
+                View view = getContentView();
+                for (CourseMode courseMode : CourseMode.values()) {
+                    View item = view.findViewById(courseMode.layoutId);
+                    item.setSelected(item == v);
+                }
+                ((Activity) view.getContext()).invalidateOptionsMenu();
             }
-            itemSelectedListener.onCourseModeClick(courseMode);
             dismiss();
         }
     }
