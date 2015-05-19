@@ -93,7 +93,7 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_margin="14dp"
-        android:background="@drawable/ic_next_default"
+        android:background="@drawable/ic_next_default_mirrored"
         android:contentDescription="@string/course_content"
         android:scaleType="fitXY"
         android:visibility="gone"

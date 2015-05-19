@@ -99,7 +99,7 @@ public abstract class ChapterAdapter extends BaseListAdapter<SectionEntry> {
                         .getColor(R.color.grey_text_mycourse));
             }else{
                 holder.next_arrow
-                .setBackgroundResource(R.drawable.ic_next_deactive);
+                .setBackgroundResource(R.drawable.ic_next_deactive_mirrored);
                 holder.chapterLayout
                         .setBackgroundResource(R.color.disabled_chapter_list);
                 holder.chapterName.setTextColor(getContext().getResources()
