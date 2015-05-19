@@ -3,6 +3,8 @@ package org.edx.mobile.view.dialog;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.IdRes;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -12,17 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import org.edx.mobile.R;
+import org.edx.mobile.third_party.iconify.IconDrawable;
+import org.edx.mobile.third_party.iconify.Iconify;
 
 public class CourseModesMenuPopup extends PopupWindow {
     public enum CourseMode {
-        VIDEO_ONLY(R.id.videos_only),
-        FULL_COURSE(R.id.full_course);
+        VIDEO_ONLY(R.id.videos_only, Iconify.IconValue.fa_film),
+        FULL_COURSE(R.id.full_course, Iconify.IconValue.fa_list);
 
         private final int layoutId;
-        CourseMode(@IdRes int layoutId) {
+        private final Iconify.IconValue iconValue;
+        CourseMode(@IdRes int layoutId, Iconify.IconValue iconValue) {
             this.layoutId = layoutId;
+            this.iconValue = iconValue;
         }
     }
 
@@ -50,7 +57,13 @@ public class CourseModesMenuPopup extends PopupWindow {
         // Setting a background is necessary for outside touches to register
         setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         for (CourseMode courseMode : CourseMode.values()) {
-            View item = contentView.findViewById(courseMode.layoutId);
+            TextView item = (TextView) contentView.findViewById(courseMode.layoutId);
+            Drawable iconDrawable = new IconDrawable(activity, courseMode.iconValue).sizeDp(15);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                item.setCompoundDrawablesWithIntrinsicBounds(iconDrawable, null, null, null);
+            } else {
+                item.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null);
+            }
             if (courseMode == selectedMode) {
                 item.setSelected(true);
             }
@@ -88,5 +101,5 @@ public class CourseModesMenuPopup extends PopupWindow {
             itemSelectedListener.onCourseModeClick(courseMode);
             dismiss();
         }
-    };
+    }
 }
