@@ -52,15 +52,15 @@ public class CourseModesMenuPopup extends PopupWindow {
                 CourseMode.VIDEO_ONLY : CourseMode.FULL_COURSE;
         for (CourseMode courseMode : CourseMode.values()) {
             TextView item = (TextView) contentView.findViewById(courseMode.layoutId);
-            Drawable iconDrawable = new IconDrawable(activity, courseMode.iconValue).sizeDp(15);
+            boolean isSelected = courseMode == selectedMode;
+            Drawable iconDrawable = new IconDrawable(activity, courseMode.iconValue)
+                    .sizeDp(15).colorRes(isSelected ? R.color.cyan_4 : R.color.black);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 item.setCompoundDrawablesWithIntrinsicBounds(iconDrawable, null, null, null);
             } else {
                 item.setCompoundDrawablesRelativeWithIntrinsicBounds(iconDrawable, null, null, null);
             }
-            if (courseMode == selectedMode) {
-                item.setSelected(true);
-            }
+            item.setSelected(isSelected);
             item.setOnClickListener(new ItemClickListener(courseMode));
         }
     }
@@ -91,8 +91,17 @@ public class CourseModesMenuPopup extends PopupWindow {
                         courseMode == CourseMode.VIDEO_ONLY);
                 View view = getContentView();
                 for (CourseMode courseMode : CourseMode.values()) {
-                    View item = view.findViewById(courseMode.layoutId);
-                    item.setSelected(item == v);
+                    TextView item = (TextView) view.findViewById(courseMode.layoutId);
+                    boolean isSelected = item == v;
+                    item.setSelected(isSelected);
+                    Drawable[] compoundDrawables;
+                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        compoundDrawables = item.getCompoundDrawables();
+                    } else {
+                        compoundDrawables = item.getCompoundDrawablesRelative();
+                    }
+                    ((IconDrawable) compoundDrawables[0]).colorRes(
+                            isSelected ? R.color.cyan_4 : R.color.black);
                 }
                 ((Activity) view.getContext()).invalidateOptionsMenu();
             }
