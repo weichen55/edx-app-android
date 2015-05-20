@@ -6,21 +6,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.PopupMenu;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import org.edx.mobile.R;
 import org.edx.mobile.base.BaseFragmentActivity;
+import org.edx.mobile.event.DownloadEvent;
 import org.edx.mobile.model.ICourse;
 import org.edx.mobile.model.api.EnrolledCoursesResponse;
-import org.edx.mobile.module.prefs.PrefManager;
 import org.edx.mobile.third_party.iconify.IconDrawable;
 import org.edx.mobile.third_party.iconify.Iconify;
 import org.edx.mobile.util.AppConstants;
+import org.edx.mobile.util.BrowserUtil;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.view.common.TaskProcessCallback;
-import org.edx.mobile.view.custom.ETextView;
+
+import de.greenrobot.event.EventBus;
 
 /**
  *  A base class to handle some common task
@@ -32,7 +33,11 @@ import org.edx.mobile.view.custom.ETextView;
 public abstract  class CourseBaseActivity  extends BaseFragmentActivity implements TaskProcessCallback{
 
     private View offlineBar;
-    private ProgressBar progressWheel;
+    private View lastAccessBar;
+    private View downloadProgressBar;
+    protected TextView downloadIndicator;
+
+    protected ProgressBar progressWheel;
 
     protected EnrolledCoursesResponse courseData;
     protected ICourse course;
@@ -60,14 +65,23 @@ public abstract  class CourseBaseActivity  extends BaseFragmentActivity implemen
 
         setApplyPrevTransitionOnRestart(true);
         offlineBar = findViewById(R.id.offline_bar);
+        lastAccessBar = findViewById(R.id.last_access_bar);
+        downloadProgressBar = findViewById(R.id.download_in_progress_bar);
+        downloadIndicator = (TextView)findViewById(R.id.video_download_indicator);
+        Iconify.setIcon(downloadIndicator, Iconify.IconValue.fa_spinner);
+        findViewById(R.id.download_in_progress_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Router.getInstance().showDownloads(CourseBaseActivity.this);
+            }
+        });
+
         progressWheel = (ProgressBar) findViewById(R.id.progress_spinner);
         if (!(NetworkUtil.isConnected(this))) {
             AppConstants.offline_flag = true;
             invalidateOptionsMenu();
             showOfflineMessage();
-            if(offlineBar!=null){
-                offlineBar.setVisibility(View.VISIBLE);
-            }
+
         }
     }
 
@@ -75,7 +89,16 @@ public abstract  class CourseBaseActivity  extends BaseFragmentActivity implemen
     protected void onResume() {
         super.onResume();
         invalidateOptionsMenu();
+        if ( !EventBus.getDefault().isRegistered(this) )
+            EventBus.getDefault().register(this);
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        EventBus.getDefault().unregister(this);
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -100,6 +123,14 @@ public abstract  class CourseBaseActivity  extends BaseFragmentActivity implemen
         }
     }
 
+    /**
+     * callback for EventBus
+     * https://github.com/greenrobot/EventBus
+     */
+    public void onEvent(DownloadEvent event) {
+        setVisibilityForDownloadProgressView(true);
+    }
+
     @Override
     protected void onOnline() {
         offlineBar.setVisibility(View.GONE);
@@ -120,9 +151,6 @@ public abstract  class CourseBaseActivity  extends BaseFragmentActivity implemen
         finish();
     }
 
-
-
-
     @Override
     protected boolean createOptionMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -132,63 +160,35 @@ public abstract  class CourseBaseActivity  extends BaseFragmentActivity implemen
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        PrefManager.UserPrefManager userPrefManager = new PrefManager.UserPrefManager(this);
-
-        if (userPrefManager.isUserPrefVideoModel()) {
-            menu.findItem(R.id.action_change_mode).setIcon(
-                new IconDrawable(this, Iconify.IconValue.fa_film)
+        if( menu.findItem(R.id.action_share_on_web) != null)
+            menu.findItem(R.id.action_share_on_web).setIcon(
+                new IconDrawable(this, Iconify.IconValue.fa_share_square_o)
                     .actionBarSize());
-        } else {
-            menu.findItem(R.id.action_change_mode).setIcon(
-                new IconDrawable(this, Iconify.IconValue.fa_list)
-                    .actionBarSize());
-        }
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
-            case R.id.action_change_mode:
-                changeMode();
+            case R.id.action_share_on_web:
+                BrowserUtil.open(this, getUrlForWebView());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void changeMode(){
-                 //Creating the instance of PopupMenu
-                PopupMenu popup = new PopupMenu(this, this.progressWheel);
-                //Inflating the Popup using xml file
-                popup.getMenuInflater()
-                    .inflate(R.menu.change_mode, popup.getMenu());
-                MenuItem menuItem = popup.getMenu().findItem(R.id.change_mode_video_only);
-
-
-                //registering popup with OnMenuItemClickListener
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    public boolean onMenuItemClick(MenuItem item) {
-                        Toast.makeText(
-                            CourseBaseActivity.this,
-                            "You Clicked : " + item.getTitle(),
-                            Toast.LENGTH_SHORT
-                        ).show();
-                        return true;
-                    }
-                });
-
-                popup.show(); //showing popup menu
-
+    protected  String getUrlForWebView(){
+        return "";
     }
+
+
     /**
      * This function shows the offline mode message
      */
     private void showOfflineMessage(){
-
-        ETextView offlineModeTv = (ETextView) findViewById(R.id.offline_mode_message);
-        if(offlineModeTv!=null){
-            offlineModeTv.setVisibility(View.VISIBLE);
+        if(offlineBar!=null){
+            offlineBar.setVisibility(View.VISIBLE);
         }
     }
 
@@ -196,10 +196,8 @@ public abstract  class CourseBaseActivity  extends BaseFragmentActivity implemen
      * This function hides the offline mode message
      */
     private void hideOfflineMessage() {
-
-        ETextView offlineModeTv = (ETextView) findViewById(R.id.offline_mode_message);
-        if(offlineModeTv!=null) {
-            offlineModeTv.setVisibility(View.GONE);
+        if(offlineBar!=null){
+            offlineBar.setVisibility(View.GONE);
         }
     }
 
@@ -220,6 +218,35 @@ public abstract  class CourseBaseActivity  extends BaseFragmentActivity implemen
     private void hideLoadingProgress(){
         if(progressWheel!=null){
             progressWheel.setVisibility(View.GONE);
+        }
+    }
+
+
+    protected void setVisibilityForDownloadProgressView(boolean show){
+        downloadProgressBar.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    protected void hideLastAccessedView(View v) {
+        try{
+            lastAccessBar.setVisibility(View.GONE);
+        }catch(Exception e){
+            logger.error(e);
+        }
+    }
+
+    protected void showLastAccessedView(View v, String title, View.OnClickListener listener) {
+        try{
+            lastAccessBar.setVisibility(View.VISIBLE);
+            //
+            View lastAccessTextView = v == null ? findViewById(R.id.last_access_text) :
+                v.findViewById(R.id.last_access_text);
+            ((TextView)lastAccessTextView).setText(title);
+            View detailButton = v == null ? findViewById(R.id.last_access_button) :
+                v.findViewById(R.id.last_access_button);
+            detailButton.setOnClickListener(listener);
+
+        }catch(Exception e){
+            logger.error(e);
         }
     }
 
@@ -249,3 +276,4 @@ public abstract  class CourseBaseActivity  extends BaseFragmentActivity implemen
         hideLoadingProgress();
     }
 }
+
