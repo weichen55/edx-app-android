@@ -2,7 +2,11 @@ package org.edx.mobile.view.custom.popup.menu;
 
 /*
  * This class is copied and modified according to our specifications from
- * the AOSP.
+ * the AOSP. It uses the appcompat implementation because it exposes it's
+ * internal classes, so we only need to duplicate minimal code. We use
+ * a custom attribute set to define a fixed width and other things, and
+ * a custom adapter with it's own layout that automatically expends the
+ * first level of submenus in order to support headers.
  *
  * Copyright (C) 2010 The Android Open Source Project
  *

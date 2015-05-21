@@ -2,7 +2,9 @@ package org.edx.mobile.view.custom.popup.menu;
 
 /*
  * This class is copied from the AOSP and modified to use our custom
- * MenuPopupHelper class and avoid warnings.
+ * MenuPopupHelper class and the appcompat library and avoid warnings.
+ * The appcompat implementation is used because it's internal classes
+ * are accessible, and thus wouldn't need to be duplicated unnecessarily.
  *
  * Copyright (C) 2010 The Android Open Source Project
  *
