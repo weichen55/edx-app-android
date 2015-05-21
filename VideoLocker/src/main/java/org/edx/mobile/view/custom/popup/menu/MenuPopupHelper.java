@@ -1,4 +1,4 @@
-package org.edx.mobile.view.custom;
+package org.edx.mobile.view.custom.popup.menu;
 
 /*
  * This class is copied and modified according to our specifications from

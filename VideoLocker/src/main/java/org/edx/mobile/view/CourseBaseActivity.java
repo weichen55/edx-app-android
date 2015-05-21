@@ -20,7 +20,7 @@ import org.edx.mobile.util.AppConstants;
 import org.edx.mobile.util.NetworkUtil;
 import org.edx.mobile.view.common.TaskProcessCallback;
 import org.edx.mobile.view.custom.ETextView;
-import org.edx.mobile.view.custom.PopupMenu;
+import org.edx.mobile.view.custom.popup.menu.PopupMenu;
 
 /**
  *  A base class to handle some common task
