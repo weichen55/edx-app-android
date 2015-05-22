@@ -93,7 +93,7 @@ public abstract class ChapterAdapter extends BaseListAdapter<SectionEntry> {
                     (courseId, model.chapter, null);
             if(isVideoDownloaded)
             {
-                holder.next_arrow.setBackgroundResource(R.drawable.ic_next_default);
+                holder.next_arrow.setBackgroundResource(R.drawable.ic_next_default_mirrored);
                 holder.chapterLayout.setBackgroundResource(R.drawable.list_selector);
                 holder.chapterName.setTextColor(getContext().getResources()
                         .getColor(R.color.grey_text_mycourse));
